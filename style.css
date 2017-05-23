@@ -21,6 +21,7 @@ main {
 }
 
 section {
+  position: relative;
   width: 960px;
   height: 500px;
   margin: 0 auto;
@@ -46,6 +47,9 @@ section {
   height: 275px;
 }
 
-.results-field {
-  outline: dotted 2px red;
+#results-field {
+  position: absolute;
+  top: 0;
+  background-color: gray;
+  visibility: hidden;
 }

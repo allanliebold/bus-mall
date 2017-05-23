@@ -1,5 +1,9 @@
 'use strict';
 
+// product objects go into the timeOut array when they're shown, and held there until their canDisplay counter goes back to zero. I think it's supposed to be after 1 click, but I was having issues setting the number lower than 2.
+var timeOut = [];
+// all of the product objects go into the imgArr when they can be displayed.
+var imgArr = [];
 // declare variables for the elements in index.html where I want the pictures to show.
 var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
@@ -25,12 +29,6 @@ function Product(name, path, shown, clicks, canDisplay) {
 // canDisplay is another counter, which is used to keep the same images from displaying twice in a row.
   this.canDisplay = canDisplay;
 }
-
-// product objects go into the timeOut array when they're shown, and held there until their canDisplay counter goes back to zero. I think it's supposed to be after 1 click, but I was having issues setting the number lower than 2.
-var timeOut = [];
-// all of the product objects go into the imgArr when they can be displayed.
-var imgArr = [];
-
 // instantiation of all the product objects. I will probably refactor this so they're instantiated inside imgArr.
 var bag = new Product('Artoo Bag', './images/bag.jpg', 0, 0, 0);
 var banana = new Product('Banana Slicer', './images/banana.jpg', 0, 0, 0);
@@ -85,10 +83,12 @@ function tallyClicks(){
 //  secondImage.removeEventListener('click', trackClicks);
 //  thirdImage.removeEventListener('click', trackClicks);
 
+  results.style.visibility = 'visible';
+
 // a for loop to go through the timeOut array and push everything back into imgArr. There may be an issue here since I seem to have duplicates of some items in the next part.
   for(var i=0; i < timeOut.length; i++){
     imgArr.push(timeOut[i]);
-    console.log('Tally complete and imgArr is now: ', imgArr);
+
   }
 
 // loop through imgArr, which should contain all of the product objects again. A text string is added to index.html to display how many times each product was shown and clicked as long as it was clicked at least once. I could change that to display all of them though.
