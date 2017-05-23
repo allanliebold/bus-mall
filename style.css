@@ -45,3 +45,7 @@ section {
   width: 275px;
   height: 275px;
 }
+
+.results-field {
+  outline: dotted 2px red;
+}

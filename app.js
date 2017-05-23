@@ -4,6 +4,8 @@ var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
 var thirdImage = document.getElementById('third-image');
 
+var results = document.getElementById('results-field');
+
 var first;
 var second;
 var third;
@@ -18,29 +20,29 @@ function Product(name, path, shown, clicks, canDisplay) {
   this.canDisplay = canDisplay;
 }
 
-var imgArr = [];
 var timeOut = [];
+var imgArr = [];
 
-var bag = new Product('bag', './images/bag.jpg', 0, 0, 0);
-var banana = new Product('banana', './images/banana.jpg', 0, 0, 0);
-var bathroom = new Product('bathroom', './images/bathroom.jpg', 0, 0, 0);
-var boots = new Product('boots', './images/boots.jpg', 0, 0, 0);
-var breakfast = new Product('breakfast', './images/breakfast.jpg', 0, 0, 0);
-var bubblegum = new Product('bubblegum', './images/bubblegum.jpg', 0, 0, 0);
-var chair = new Product('chair', './images/chair.jpg', 0, 0, 0);
-var cthulhu = new Product('cthulhu', './images/cthulhu.jpg', 0, 0, 0);
-var dogDuck = new Product('dog duck', './images/dog-duck.jpg', 0, 0, 0);
-var dragon = new Product('dragon', './images/dragon.jpg', 0, 0, 0);
-var pen = new Product('pen', './images/pen.jpg', 0, 0, 0);
-var petSweep = new Product('pet sweep', './images/pet-sweep.jpg', 0, 0, 0);
-var scissors = new Product('scissors', './images/scissors.jpg', 0, 0, 0);
-var shark = new Product('shark', './images/shark.jpg', 0, 0, 0);
-var sweep = new Product('sweep', './images/sweep.png', 0, 0, 0);
-var tauntaun = new Product('tauntaun', './images/tauntaun.jpg', 0, 0, 0);
-var unicorn = new Product('unicorn', './images/unicorn.jpg', 0, 0, 0);
-var usb = new Product('usb', './images/usb.gif', 0, 0, 0);
-var waterCan = new Product('water can', './images/water-can.jpg', 0, 0, 0);
-var wineGlass = new Product('wine glass', './images/wine-glass.jpg', 0, 0, 0);
+var bag = new Product('Artoo Bag', './images/bag.jpg', 0, 0, 0);
+var banana = new Product('Banana Slicer', './images/banana.jpg', 0, 0, 0);
+var bathroom = new Product('Bathroom iPad Stand', './images/bathroom.jpg', 0, 0, 0);
+var boots = new Product('Boots', './images/boots.jpg', 0, 0, 0);
+var breakfast = new Product('All-in-One Breakfast Device', './images/breakfast.jpg', 0, 0, 0);
+var bubblegum = new Product('Meatball Bubblegum', './images/bubblegum.jpg', 0, 0, 0);
+var chair = new Product('Awkward Chair', './images/chair.jpg', 0, 0, 0);
+var cthulhu = new Product('Cthulhu', './images/cthulhu.jpg', 0, 0, 0);
+var dogDuck = new Product('Dog Duck Bill', './images/dog-duck.jpg', 0, 0, 0);
+var dragon = new Product('Dragon Meat', './images/dragon.jpg', 0, 0, 0);
+var pen = new Product('Utensil Pen', './images/pen.jpg', 0, 0, 0);
+var petSweep = new Product('Pet Sweeper', './images/pet-sweep.jpg', 0, 0, 0);
+var scissors = new Product('Pizza Scissors', './images/scissors.jpg', 0, 0, 0);
+var shark = new Product('Shark Sleeping Bag', './images/shark.jpg', 0, 0, 0);
+var sweep = new Product('Baby Sweeper', './images/sweep.png', 0, 0, 0);
+var tauntaun = new Product('Tauntaun Sleeping Bag', './images/tauntaun.jpg', 0, 0, 0);
+var unicorn = new Product('Unicorn Meat', './images/unicorn.jpg', 0, 0, 0);
+var usb = new Product('USB Tentacle', './images/usb.gif', 0, 0, 0);
+var waterCan = new Product('Self-Watering Can', './images/water-can.jpg', 0, 0, 0);
+var wineGlass = new Product('Wine Glass', './images/wine-glass.jpg', 0, 0, 0);
 
 imgArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, usb, waterCan, wineGlass);
 
@@ -64,7 +66,29 @@ function trackClicks(image){
   console.log('Total clicks: ', counter);
   image.clicks = image.clicks + 1;
   console.log('Clicks for ' + image.name + ': ' + image.clicks);
+  randomizeImages();
 }
+
+function tallyClicks(){
+//  I haven't been able to find a way to remove the event listeners when they have anonymous functions, so I will have to rewrite this part. 
+//  firstImage.removeEventListener('click', trackClicks);
+//  secondImage.removeEventListener('click', trackClicks);
+//  thirdImage.removeEventListener('click', trackClicks);
+
+  for(var i=0; i < timeOut.length; i++){
+    imgArr.push(timeOut[i]);
+    console.log('Tally complete and imgArr is now: ', imgArr);
+  }
+
+  for(var j=0; j < imgArr.length; j++){
+    if(imgArr[j].clicks > 0){
+      var tally = document.createElement('p');
+      tally.innerHTML = 'Product: ' + imgArr[j].name + ' Shown: ' + imgArr[j].shown + ' Clicked: ' + imgArr[j].clicks;
+      results.appendChild(tally);
+    }
+  }
+}
+
 
 function displayImages(){
   var firstPath = document.createElement('img');
@@ -86,6 +110,10 @@ function displayImages(){
 }
 
 function randomizeImages(){
+  if(counter >= 25){
+    tallyClicks();
+  }
+
   console.log('ImgArr is ' + imgArr.length + ' long');
   console.log('timeOut is ' + timeOut.length + ' long');
   var firstIndex = getRandNum();
@@ -136,7 +164,7 @@ function updateTimeOut(){
       console.log(timeOut[i].name + ' is coming out of time out.');
       imgArr.push(timeOut[i]);
       timeOut.splice(timeOut[i], 1);
-      i = i - 1;
+      i -= 1;
     }
   }
 }
