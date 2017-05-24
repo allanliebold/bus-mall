@@ -50,6 +50,6 @@ section {
 #results-field {
   position: absolute;
   top: 0;
-  background-color: gray;
+  background-color: #fff;
   visibility: hidden;
 }

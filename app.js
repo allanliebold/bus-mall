@@ -4,6 +4,7 @@
 var timeOut = [];
 // all of the product objects go into the imgArr when they can be displayed.
 var imgArr = [];
+
 // declare variables for the elements in index.html where I want the pictures to show.
 var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
@@ -19,37 +20,39 @@ var third;
 
 // variable to store the total number of clicks. I need to know when the user gets to 25.
 var counter = 0;
+var canvas = document.getElementById('chart');
+var ctx = canvas.getContext('2d');
 
 // object constructor for the products to be displayed, with properties to track how many times shown, clicks, and the file path to the corresponding image.
-function Product(name, path, shown, clicks, canDisplay) {
+function Product(name, path, shown, clicks, canShow) {
   this.name = name;
   this.path = path;
-  this.shown = shown;
-  this.clicks = clicks;
-// canDisplay is another counter, which is used to keep the same images from displaying twice in a row.
-  this.canDisplay = canDisplay;
+  this.shown = 0;
+  this.clicks = 0;
+// canShow is another counter, which is used to keep the same images from displaying twice in a row.
+  this.canShow = 0;
 }
 // instantiation of all the product objects. I will probably refactor this so they're instantiated inside imgArr.
-var bag = new Product('Artoo Bag', './images/bag.jpg', 0, 0, 0);
-var banana = new Product('Banana Slicer', './images/banana.jpg', 0, 0, 0);
-var bathroom = new Product('Bathroom iPad Stand', './images/bathroom.jpg', 0, 0, 0);
-var boots = new Product('Boots', './images/boots.jpg', 0, 0, 0);
-var breakfast = new Product('All-in-One Breakfast Device', './images/breakfast.jpg', 0, 0, 0);
-var bubblegum = new Product('Meatball Bubblegum', './images/bubblegum.jpg', 0, 0, 0);
-var chair = new Product('Awkward Chair', './images/chair.jpg', 0, 0, 0);
-var cthulhu = new Product('Cthulhu', './images/cthulhu.jpg', 0, 0, 0);
-var dogDuck = new Product('Dog Duck Bill', './images/dog-duck.jpg', 0, 0, 0);
-var dragon = new Product('Dragon Meat', './images/dragon.jpg', 0, 0, 0);
-var pen = new Product('Utensil Pen', './images/pen.jpg', 0, 0, 0);
-var petSweep = new Product('Pet Sweeper', './images/pet-sweep.jpg', 0, 0, 0);
-var scissors = new Product('Pizza Scissors', './images/scissors.jpg', 0, 0, 0);
-var shark = new Product('Shark Sleeping Bag', './images/shark.jpg', 0, 0, 0);
-var sweep = new Product('Baby Sweeper', './images/sweep.png', 0, 0, 0);
-var tauntaun = new Product('Tauntaun Sleeping Bag', './images/tauntaun.jpg', 0, 0, 0);
-var unicorn = new Product('Unicorn Meat', './images/unicorn.jpg', 0, 0, 0);
-var usb = new Product('USB Tentacle', './images/usb.gif', 0, 0, 0);
-var waterCan = new Product('Self-Watering Can', './images/water-can.jpg', 0, 0, 0);
-var wineGlass = new Product('Wine Glass', './images/wine-glass.jpg', 0, 0, 0);
+var bag = new Product('Artoo Bag', './images/bag.jpg');
+var banana = new Product('Banana Slicer', './images/banana.jpg');
+var bathroom = new Product('Bathroom iPad Stand', './images/bathroom.jpg');
+var boots = new Product('Boots', './images/boots.jpg');
+var breakfast = new Product('All-in-One Breakfast Device', './images/breakfast.jpg');
+var bubblegum = new Product('Meatball Bubblegum', './images/bubblegum.jpg');
+var chair = new Product('Awkward Chair', './images/chair.jpg');
+var cthulhu = new Product('Cthulhu', './images/cthulhu.jpg');
+var dogDuck = new Product('Dog Duck Bill', './images/dog-duck.jpg');
+var dragon = new Product('Dragon Meat', './images/dragon.jpg');
+var pen = new Product('Utensil Pen', './images/pen.jpg');
+var petSweep = new Product('Pet Sweeper', './images/pet-sweep.jpg');
+var scissors = new Product('Pizza Scissors', './images/scissors.jpg');
+var shark = new Product('Shark Sleeping Bag', './images/shark.jpg');
+var sweep = new Product('Baby Sweeper', './images/sweep.png');
+var tauntaun = new Product('Tauntaun Sleeping Bag', './images/tauntaun.jpg');
+var unicorn = new Product('Unicorn Meat', './images/unicorn.jpg');
+var usb = new Product('USB Tentacle', './images/usb.gif');
+var waterCan = new Product('Self-Watering Can', './images/water-can.jpg');
+var wineGlass = new Product('Wine Glass', './images/wine-glass.jpg');
 
 imgArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, usb, waterCan, wineGlass);
 
@@ -78,6 +81,9 @@ function trackClicks(image){
 
 // this function is called at the start of randomizeImages if the counter variable has reached 25.
 function tallyClicks(){
+  var nameArr = [];
+  var clicksArr = [];
+  var shownArr = [];
 //  I haven't been able to find a way to remove the event listeners when they have anonymous functions, so I will have to rewrite this part.
 //  firstImage.removeEventListener('click', trackClicks);
 //  secondImage.removeEventListener('click', trackClicks);
@@ -88,17 +94,41 @@ function tallyClicks(){
 // a for loop to go through the timeOut array and push everything back into imgArr. There may be an issue here since I seem to have duplicates of some items in the next part.
   for(var i=0; i < timeOut.length; i++){
     imgArr.push(timeOut[i]);
-
   }
 
 // loop through imgArr, which should contain all of the product objects again. A text string is added to index.html to display how many times each product was shown and clicked as long as it was clicked at least once. I could change that to display all of them though.
-  for(var j=0; j < imgArr.length; j++){
-    if(imgArr[j].clicks > 0){
-      var tally = document.createElement('p');
-      tally.innerHTML = 'Product: ' + imgArr[j].name + ' Shown: ' + imgArr[j].shown + ' Clicked: ' + imgArr[j].clicks;
-      results.appendChild(tally);
-    }
+  // for(var j=0; j < imgArr.length; j++){
+  //   if(imgArr[j].clicks > 0){
+  //     var tally = document.createElement('p');
+  //     tally.innerHTML = 'Product: ' + imgArr[j].name + ' Shown: ' + imgArr[j].shown + ' Clicked: ' + imgArr[j].clicks;
+  //     results.appendChild(tally);
+
+  //   }
+  // }
+  for(var h=0; h < imgArr.length; h++){
+    nameArr.push(imgArr[h].name);
+    clicksArr.push(imgArr[h].clicks);
+    shownArr.push(imgArr[h].shown);
   }
+
+  var chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: nameArr,
+      datasets: [
+        {
+          label: 'Clicks',
+          data: clicksArr,
+          backgroundColor: '#33a'
+        },
+        {
+          label: 'Shown',
+          data: shownArr,
+          backgroundColor: '#88a'
+        }
+      ]
+    }
+  });
 }
 
 // checks if the counter has reached 25, and if it has tallyClicks is called.
@@ -114,7 +144,7 @@ function randomizeImages(){
 
 // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
   first.shown += 1;
-  first.canShow = 2;
+  first.canShow = 1;
   timeOut.push(first);
   imgArr.splice(randomIndex, 1);
 
@@ -122,7 +152,7 @@ function randomizeImages(){
   second = imgArr[randomIndex];
   console.log('second is ', second.name);
   second.shown += 1;
-  second.canShow = 2;
+  second.canShow = 1;
   timeOut.push(second);
   imgArr.splice(randomIndex, 1);
 
@@ -131,7 +161,7 @@ function randomizeImages(){
   console.log('third is ', third.name);
   timeOut.push(third);
   third.shown += 1;
-  third.canShow = 2;
+  third.canShow = 1;
   imgArr.splice(randomIndex, 1);
   displayImages();
 }
