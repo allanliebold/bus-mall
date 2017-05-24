@@ -24,7 +24,7 @@ var canvas = document.getElementById('chart');
 var ctx = canvas.getContext('2d');
 
 // object constructor for the products to be displayed, with properties to track how many times shown, clicks, and the file path to the corresponding image.
-function Product(name, path, shown, clicks, canShow) {
+function Product(name, path) {
   this.name = name;
   this.path = path;
   this.shown = 0;
@@ -56,7 +56,7 @@ var wineGlass = new Product('Wine Glass', './images/wine-glass.jpg');
 
 imgArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, usb, waterCan, wineGlass);
 
-// event listeners for each of the image slots on the page. They each run an anonymous function when clicked so trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then randomizeImages is called. I think I need to refactor this, because I'm having troubling figuring out how to remove an event listener that uses an anonymous function.
+// event listeners for each of the image slots on the page. They each run an anonymous function when clicked so trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then randomizeImages is called.
 firstImage.addEventListener('click', function(){
   trackClicks(first);
   randomizeImages();
@@ -76,7 +76,7 @@ thirdImage.addEventListener('click', function(){
 function trackClicks(image){
   counter++;
   console.log('Total clicks: ', counter);
-  image.clicks = image.clicks + 1;
+  image.clicks++;
 }
 
 // this function is called at the start of randomizeImages if the counter variable has reached 25.
@@ -84,10 +84,6 @@ function tallyClicks(){
   var nameArr = [];
   var clicksArr = [];
   var shownArr = [];
-//  I haven't been able to find a way to remove the event listeners when they have anonymous functions, so I will have to rewrite this part.
-//  firstImage.removeEventListener('click', trackClicks);
-//  secondImage.removeEventListener('click', trackClicks);
-//  thirdImage.removeEventListener('click', trackClicks);
 
   results.style.visibility = 'visible';
 
@@ -105,12 +101,14 @@ function tallyClicks(){
 
   //   }
   // }
+
   for(var h=0; h < imgArr.length; h++){
     nameArr.push(imgArr[h].name);
     clicksArr.push(imgArr[h].clicks);
     shownArr.push(imgArr[h].shown);
   }
 
+// creates a bar chart to display clicks and times shown along with the names of each product object.
   var chart = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -127,6 +125,9 @@ function tallyClicks(){
           backgroundColor: '#88a'
         }
       ]
+    },
+    options: {
+      responsive: false
     }
   });
 }
@@ -135,35 +136,36 @@ function tallyClicks(){
 function randomizeImages(){
   if(counter >= 25){
     tallyClicks();
+  } else {
+
+  // gets a random number to use as the index number to select a product object from imgArr
+    var randomIndex = getRandNum();
+    first = imgArr[randomIndex];
+    console.log('first is ', first.name);
+
+  // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
+    first.shown += 1;
+    first.canShow = 1;
+    timeOut.push(first);
+    imgArr.splice(randomIndex, 1);
+
+    randomIndex = getRandNum();
+    second = imgArr[randomIndex];
+    console.log('second is ', second.name);
+    second.shown += 1;
+    second.canShow = 1;
+    timeOut.push(second);
+    imgArr.splice(randomIndex, 1);
+
+    randomIndex = getRandNum();
+    third = imgArr[randomIndex];
+    console.log('third is ', third.name);
+    timeOut.push(third);
+    third.shown += 1;
+    third.canShow = 1;
+    imgArr.splice(randomIndex, 1);
+    displayImages();
   }
-
-// gets a random number to use as the index number to select a product object from imgArr
-  var randomIndex = getRandNum();
-  first = imgArr[randomIndex];
-  console.log('first is ', first.name);
-
-// updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
-  first.shown += 1;
-  first.canShow = 1;
-  timeOut.push(first);
-  imgArr.splice(randomIndex, 1);
-
-  randomIndex = getRandNum();
-  second = imgArr[randomIndex];
-  console.log('second is ', second.name);
-  second.shown += 1;
-  second.canShow = 1;
-  timeOut.push(second);
-  imgArr.splice(randomIndex, 1);
-
-  randomIndex = getRandNum();
-  third = imgArr[randomIndex];
-  console.log('third is ', third.name);
-  timeOut.push(third);
-  third.shown += 1;
-  third.canShow = 1;
-  imgArr.splice(randomIndex, 1);
-  displayImages();
 }
 
 // creates HTML elements using the three randomly selected product object file paths and appends them to the three image slots.
@@ -174,6 +176,7 @@ function displayImages(){
 
   firstPath.src = first.path;
   console.log(firstPath);
+// removes the previous image in the slot to make room for the new image
   firstImage.removeChild(firstImage.childNodes[0]);
   firstImage.appendChild(firstPath);
 

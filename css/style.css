@@ -50,6 +50,10 @@ section {
 #results-field {
   position: absolute;
   top: 0;
-  background-color: #fff;
-  visibility: hidden;
+  visibility: hidden;;
+}
+
+#chart {
+  margin-top: 440px;
+  margin-left: 200px;
 }
