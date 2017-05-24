@@ -119,12 +119,12 @@ function tallyClicks(){
         {
           label: 'Clicks',
           data: clicksArr,
-          backgroundColor: ['#c55']
+          backgroundColor: '#33a'
         },
         {
           label: 'Shown',
           data: shownArr,
-          backgroundColor: ['#aca']
+          backgroundColor: '#88a'
         }
       ]
     }
