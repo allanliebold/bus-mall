@@ -83,6 +83,7 @@ function trackClicks(image){
 function tallyClicks(){
   var nameArr = [];
   var clicksArr = [];
+  var shownArr = [];
 //  I haven't been able to find a way to remove the event listeners when they have anonymous functions, so I will have to rewrite this part.
 //  firstImage.removeEventListener('click', trackClicks);
 //  secondImage.removeEventListener('click', trackClicks);
@@ -107,20 +108,25 @@ function tallyClicks(){
   for(var h=0; h < imgArr.length; h++){
     nameArr.push(imgArr[h].name);
     clicksArr.push(imgArr[h].clicks);
+    shownArr.push(imgArr[h].shown);
   }
-
-  console.log('nameArr is ', nameArr);
-  console.log('clicksArr is ', clicksArr);
 
   var chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: nameArr,
-      datasets: [{
-        label: 'Clicks',
-        data: clicksArr,
-        backgroundColor: ['#555']
-      }]
+      datasets: [
+        {
+          label: 'Clicks',
+          data: clicksArr,
+          backgroundColor: ['#c55']
+        },
+        {
+          label: 'Shown',
+          data: shownArr,
+          backgroundColor: ['#aca']
+        }
+      ]
     }
   });
 }
@@ -138,7 +144,7 @@ function randomizeImages(){
 
 // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
   first.shown += 1;
-  first.canShow = 2;
+  first.canShow = 1;
   timeOut.push(first);
   imgArr.splice(randomIndex, 1);
 
@@ -146,7 +152,7 @@ function randomizeImages(){
   second = imgArr[randomIndex];
   console.log('second is ', second.name);
   second.shown += 1;
-  second.canShow = 2;
+  second.canShow = 1;
   timeOut.push(second);
   imgArr.splice(randomIndex, 1);
 
@@ -155,7 +161,7 @@ function randomizeImages(){
   console.log('third is ', third.name);
   timeOut.push(third);
   third.shown += 1;
-  third.canShow = 2;
+  third.canShow = 1;
   imgArr.splice(randomIndex, 1);
   displayImages();
 }
