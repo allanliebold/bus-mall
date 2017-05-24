@@ -38,11 +38,7 @@ if(localStorage.counter){
   counter = JSON.parse(localStorage.counter);
   console.log('counter loaded: ', counter);
   imgArr = JSON.parse(localStorage.imgArr);
-  console.log('imgArr loaded: ', imgArr);
-
-  for(var i = 0; i < imgArr.length; i++){
-    imgArr[i].canShow = 0;
-  }
+  console.log('imgArr loaded: ', imgArr.length);
 } else {
   // instantiation of all the product objects. I will probably refactor this so they're instantiated inside imgArr.
   var bag = new Product('Artoo Bag', './images/bag.jpg');
@@ -91,19 +87,16 @@ function save(){
 firstImage.addEventListener('click', function(){
   trackClicks(first);
   randomizeImages();
-  save();
 });
 
 secondImage.addEventListener('click', function(){
   trackClicks(second);
   randomizeImages();
-  save();
 });
 
 thirdImage.addEventListener('click', function(){
   trackClicks(third);
   randomizeImages();
-  save();
 });
 
 // this function is called by the event listeners so the counter variable is incremented. It also increments the clicks property on the specific product that was clicked.
@@ -111,6 +104,7 @@ function trackClicks(image){
   counter++;
   console.log('Total clicks: ', counter);
   image.clicks++;
+  save();
 }
 
 // this function is called at the start of randomizeImages if the counter variable has reached 25.
@@ -122,6 +116,7 @@ function tallyClicks(){
   results.style.visibility = 'visible';
 
   imgArr = JSON.parse(localStorage.imgArr);
+  console.log('imgArr is ', imgArr);
 
 // loop through imgArr, which should contain all of the product objects again. A text string is added to index.html to display how many times each product was shown and clicked as long as it was clicked at least once. I could change that to display all of them though.
   // for(var j=0; j < imgArr.length; j++){
@@ -165,7 +160,7 @@ function tallyClicks(){
 
 // checks if the counter has reached 25, and if it has tallyClicks is called.
 function randomizeImages(){
-  if(counter >= 25){
+  if(counter === 25){
     tallyClicks();
   } else {
 
