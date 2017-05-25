@@ -109,7 +109,7 @@ function tallyClicks(){
   }
 
 // creates a bar chart to display clicks and times shown along with the names of each product object.
-  var chart = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: {
       labels: nameArr,
