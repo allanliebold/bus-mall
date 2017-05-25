@@ -92,16 +92,6 @@ function tallyClicks(){
     imgArr.push(timeOut[i]);
   }
 
-// loop through imgArr, which should contain all of the product objects again. A text string is added to index.html to display how many times each product was shown and clicked as long as it was clicked at least once. I could change that to display all of them though.
-  // for(var j=0; j < imgArr.length; j++){
-  //   if(imgArr[j].clicks > 0){
-  //     var tally = document.createElement('p');
-  //     tally.innerHTML = 'Product: ' + imgArr[j].name + ' Shown: ' + imgArr[j].shown + ' Clicked: ' + imgArr[j].clicks;
-  //     results.appendChild(tally);
-
-  //   }
-  // }
-
   for(var h=0; h < imgArr.length; h++){
     nameArr.push(imgArr[h].name);
     clicksArr.push(imgArr[h].clicks);
