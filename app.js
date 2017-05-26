@@ -13,6 +13,7 @@ var secondImage = document.getElementById('second-image');
 var thirdImage = document.getElementById('third-image');
 
 // This is where the number of times each image is shown and clicked will be displayed.
+
 var results = document.getElementById('results-field');
 
 // I have these as global variables for now because they store the current three images and I need to use them in multiple functions. I'll probably refactor this to be more efficient.
@@ -155,6 +156,7 @@ function tallyClicks(){
 // checks if the counter has reached 25, and if it has tallyClicks is called.
 function randomizeImages(){
   if(counter === 25){
+
     tallyClicks();
   } else {
 
@@ -166,6 +168,7 @@ function randomizeImages(){
   // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
     first.shown++;
     first.canShow = 2;
+
     timeOut.push(first);
     imgArr.splice(randomIndex, 1);
 
@@ -174,6 +177,7 @@ function randomizeImages(){
     console.log('second is ', second.name);
     second.shown++;
     second.canShow = 2;
+
     timeOut.push(second);
     imgArr.splice(randomIndex, 1);
 
@@ -183,6 +187,7 @@ function randomizeImages(){
     timeOut.push(third);
     third.shown++;
     third.canShow = 2;
+
     imgArr.splice(randomIndex, 1);
     displayImages();
   }
