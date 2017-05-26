@@ -10,6 +10,47 @@ header {
   background: blue;
 }
 
+nav ul {
+  margin-left: 200px;
+}
+nav li {
+  scolor: white;
+  font-family: sans-serif;
+  font-size: 25px;
+  display: inline-block;
+  margin-top: 5px;
+  margin-left: 35px;
+}
+
+nav li ul {
+  display: none;
+}
+
+nav li:hover ul {
+  display: block;
+  position: absolute;
+  margin-top: 5px;
+  left: 0;
+  height: 100px;
+  width: 200px;
+  color: white;
+  background: blue;
+}
+
+#electronics ul {
+  left: 135px;
+}
+
+#food ul {
+  height: 75px;
+  left: 290px;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
 header div {
   width: 960px;
   position: relative;
