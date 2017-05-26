@@ -5,6 +5,8 @@ var timeOut = [];
 // all of the product objects go into the imgArr when they can be displayed.
 var imgArr = [];
 
+var saveArr = [];
+
 // declare variables for the elements in index.html where I want the pictures to show.
 var firstImage = document.getElementById('first-image');
 var secondImage = document.getElementById('second-image');
@@ -21,6 +23,8 @@ var third;
 
 // variable to store the total number of clicks. I need to know when the user gets to 25.
 var counter = 0;
+
+// these are used to create and display a chart using chart.js after the clicks are tallied.
 var canvas = document.getElementById('chart');
 var ctx = canvas.getContext('2d');
 
@@ -32,8 +36,10 @@ function Product(name, path) {
   this.clicks = 0;
 // canShow is another counter, which is used to keep the same images from displaying twice in a row.
   this.canShow = 0;
+  imgArr.push(this);
 }
 
+// if there's a counter in localStorage, then the saved data need to be assigned to counter and imgArr.
 if(localStorage.counter){
   timeOut = [];
   counter = JSON.parse(localStorage.counter);
@@ -41,33 +47,32 @@ if(localStorage.counter){
   imgArr = JSON.parse(localStorage.imgArr);
   console.log('imgArr loaded: ', imgArr.length);
 } else {
-  // instantiation of all the product objects. I will probably refactor this so they're instantiated inside imgArr.
-  var bag = new Product('Artoo Bag', './images/bag.jpg');
-  var banana = new Product('Banana Slicer', './images/banana.jpg');
-  var bathroom = new Product('Bathroom iPad Stand', './images/bathroom.jpg');
-  var boots = new Product('Boots', './images/boots.jpg');
-  var breakfast = new Product('All-in-One Breakfast Device', './images/breakfast.jpg');
-  var bubblegum = new Product('Meatball Bubblegum', './images/bubblegum.jpg');
-  var chair = new Product('Awkward Chair', './images/chair.jpg');
-  var cthulhu = new Product('Cthulhu', './images/cthulhu.jpg');
-  var dogDuck = new Product('Dog Duck Bill', './images/dog-duck.jpg');
-  var dragon = new Product('Dragon Meat', './images/dragon.jpg');
-  var pen = new Product('Utensil Pen', './images/pen.jpg');
-  var petSweep = new Product('Pet Sweeper', './images/pet-sweep.jpg');
-  var scissors = new Product('Pizza Scissors', './images/scissors.jpg');
-  var shark = new Product('Shark Sleeping Bag', './images/shark.jpg');
-  var sweep = new Product('Baby Sweeper', './images/sweep.png');
-  var tauntaun = new Product('Tauntaun Sleeping Bag', './images/tauntaun.jpg');
-  var unicorn = new Product('Unicorn Meat', './images/unicorn.jpg');
-  var usb = new Product('USB Tentacle', './images/usb.gif');
-  var waterCan = new Product('Self-Watering Can', './images/water-can.jpg');
-  var wineGlass = new Product('Wine Glass', './images/wine-glass.jpg');
-
-  imgArr.push(bag, banana, bathroom, boots, breakfast, bubblegum, chair, cthulhu, dogDuck, dragon, pen, petSweep, scissors, shark, sweep, tauntaun, unicorn, usb, waterCan, wineGlass);
+  // instantiation of all the product objects.
+  new Product('Artoo Bag', './images/bag.jpg');
+  new Product('Banana Slicer', './images/banana.jpg');
+  new Product('Bathroom iPad Stand', './images/bathroom.jpg');
+  new Product('Boots', './images/boots.jpg');
+  new Product('All-in-One Breakfast Device', './images/breakfast.jpg');
+  new Product('Meatball Bubblegum', './images/bubblegum.jpg');
+  new Product('Awkward Chair', './images/chair.jpg');
+  new Product('Cthulhu', './images/cthulhu.jpg');
+  new Product('Dog Duck Bill', './images/dog-duck.jpg');
+  new Product('Dragon Meat', './images/dragon.jpg');
+  new Product('Utensil Pen', './images/pen.jpg');
+  new Product('Pet Sweeper', './images/pet-sweep.jpg');
+  new Product('Pizza Scissors', './images/scissors.jpg');
+  new Product('Shark Sleeping Bag', './images/shark.jpg');
+  new Product('Baby Sweeper', './images/sweep.png');
+  new Product('Tauntaun Sleeping Bag', './images/tauntaun.jpg');
+  new Product('Unicorn Meat', './images/unicorn.jpg');
+  new Product('USB Tentacle', './images/usb.gif');
+  new Product('Self-Watering Can', './images/water-can.jpg');
+  new Product('Wine Glass', './images/wine-glass.jpg');
 }
 
+// this function is called with every click. The contents of both the timeOut array and imgArr are pushed into saveArr so that all 20 product objects and their values can be stringified and saved to localStorage.
 function save(){
-  var saveArr = [];
+  saveArr = [];
   console.log('timeOut is ', timeOut.length);
   console.log('imgArr is ', imgArr.length);
 
@@ -84,7 +89,7 @@ function save(){
   localStorage.imgArr = JSON.stringify(saveArr);
 }
 
-// event listeners for each of the image slots on the page. They each run an anonymous function when clicked so trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then randomizeImages is called.
+// event listeners for each of the image slots on the page. They each run an anonymous function when clicked so trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then randomizeImages is called. I really want to refactor this...
 firstImage.addEventListener('click', function(){
   trackClicks(first);
   randomizeImages();
@@ -117,18 +122,6 @@ function tallyClicks(){
   results.style.visibility = 'visible';
 
   imgArr = JSON.parse(localStorage.imgArr);
-  console.log('imgArr is ', imgArr);
-
-
-// loop through imgArr, which should contain all of the product objects again. A text string is added to index.html to display how many times each product was shown and clicked as long as it was clicked at least once. I could change that to display all of them though.
-  // for(var j=0; j < imgArr.length; j++){
-  //   if(imgArr[j].clicks > 0){
-  //     var tally = document.createElement('p');
-  //     tally.innerHTML = 'Product: ' + imgArr[j].name + ' Shown: ' + imgArr[j].shown + ' Clicked: ' + imgArr[j].clicks;
-  //     results.appendChild(tally);
-
-  //   }
-  // }
 
   for(var h=0; h < imgArr.length; h++){
     nameArr.push(imgArr[h].name);
@@ -137,7 +130,7 @@ function tallyClicks(){
   }
 
 // creates a bar chart to display clicks and times shown along with the names of each product object.
-  var chart = new Chart(ctx, {
+  new Chart(ctx, {
     type: 'bar',
     data: {
       labels: nameArr,
@@ -173,7 +166,7 @@ function randomizeImages(){
     console.log('first is ', first.name);
 
   // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
-    first.shown += 1;
+    first.shown++;
     first.canShow = 2;
 
     timeOut.push(first);
@@ -182,7 +175,7 @@ function randomizeImages(){
     randomIndex = getRandNum();
     second = imgArr[randomIndex];
     console.log('second is ', second.name);
-    second.shown += 1;
+    second.shown++;
     second.canShow = 2;
 
     timeOut.push(second);
@@ -192,7 +185,7 @@ function randomizeImages(){
     third = imgArr[randomIndex];
     console.log('third is ', third.name);
     timeOut.push(third);
-    third.shown += 1;
+    third.shown++;
     third.canShow = 2;
 
     imgArr.splice(randomIndex, 1);
