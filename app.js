@@ -15,10 +15,6 @@ var imageField = document.getElementById('image-field');
 
 var results = document.getElementById('results-field');
 
-console.log('imageField first node: ', imageField.childNodes[1]);
-console.log('imageField second node: ', imageField.childNodes[3]);
-console.log('imageField third node: ', imageField.childNodes[5]);
-
 // I have these as global variables for now because they store the current three images and I need to use them in multiple functions. I'll probably refactor this to be more efficient.
 var first;
 var second;
@@ -42,9 +38,7 @@ function Product(name, path) {
 if(localStorage.counter){
   timeOut = [];
   counter = JSON.parse(localStorage.counter);
-  console.log('counter loaded: ', counter);
   imgArr = JSON.parse(localStorage.imgArr);
-  console.log('imgArr loaded: ', imgArr.length);
 } else {
   // instantiation of all the product objects.
   new Product('Artoo Bag', './images/bag.jpg');
@@ -104,7 +98,6 @@ imageField.childNodes[5].addEventListener('click', function(){
 // this function is called by the event listeners so the counter variable is incremented. It also increments the clicks property on the specific product that was clicked.
 function trackClicks(product){
   counter++;
-  console.log('Total clicks: ', counter);
   product.clicks++;
   save();
 }
@@ -117,7 +110,6 @@ function randomizeImages(){
   // gets a random number to use as the index number to select a product object from imgArr
     var randomIndex = getRandNum();
     first = imgArr[randomIndex];
-    console.log('first is ', first.name);
     displayArr = [];
 
   // updates the selected object, incrementing the shown property and setting the canShow counter. Then it's pushed into timeOut and spliced out of imgArr.
@@ -130,7 +122,6 @@ function randomizeImages(){
 
     randomIndex = getRandNum();
     second = imgArr[randomIndex];
-    console.log('second is ', second.name);
     second.shown++;
     second.canShow = 2;
 
@@ -140,7 +131,6 @@ function randomizeImages(){
 
     randomIndex = getRandNum();
     third = imgArr[randomIndex];
-    console.log('third is ', third.name);
     third.shown++;
     third.canShow = 2;
 
@@ -158,7 +148,6 @@ function displayImages(){
   for(var i = 0; i < displayArr.length; i++){
     var imgTag = document.createElement('img');
     n += 2;
-    console.log('n: ', n);
     imgTag.src = displayArr[i].path;
     imageField.childNodes[n].removeChild(imageField.childNodes[n].childNodes[0]);
     imageField.childNodes[n].appendChild(imgTag);
@@ -171,10 +160,8 @@ function displayImages(){
 function updateTimeOut(){
   for(var i = 0; i < timeOut.length; i++){
     if(timeOut[i].canShow > 0){
-      console.log(timeOut[i].name + ' is in time out.');
       timeOut[i].canShow--;
     } else {
-      console.log(timeOut[i].name + ' is coming out of time out.');
       imgArr.push(timeOut[i]);
       timeOut.splice(timeOut[i], 1);
       i--;
