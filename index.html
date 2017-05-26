@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>BusMall</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body>
+    <header>
+      <div class="blue-bar">
+        <nav>
+          <ul>
+            <li id="clothing"><a href="">Clothing</a>
+              <ul>
+                <li>Men</li>
+                <li>Women</li>
+                <li>Children</li>
+              </ul></li>
+            <li id="electronics"><a href="">Electronics</a>
+              <ul>
+                <li>Video</li>
+                <li>Music</li>
+                <li>Accessories</li>
+              </ul>
+            </li>
+            <li id="food"><a href="">Food</a>
+              <ul>
+                <li>Candy</li>
+                <li>Novelty</li>
+              </ul>
+            </li>
+            <li><a href="">Miscellaneous</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <div class="logo">
+          <h1>BuS Mall</h1>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="image-field">
+        <div class="image-holder" id="first-image">
+        </div>
+
+        <div class="image-holder" id="second-image">
+        </div>
+
+        <div class="image-holder" id="third-image">
+        </div>
+      </section>
+
+      <section id="results-field">
+        <canvas id="chart" width="500" height="500">;
+      </section>
+    </main>
+
+    <script src="lib/chart.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
