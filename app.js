@@ -4,7 +4,8 @@
 var imgArr = [];
 
 var displayArr = [];
-// product objects go into the timeOut array when they're shown, and held there until their canDisplay counter goes back to zero. I think it's supposed to be after 1 click, but I was having issues setting the number lower than 2.
+// product objects go into the timeOut array when they're shown, and held there until their canDisplay counter goes back 
+// to zero. I think it's supposed to be after 1 click, but I was having issues setting the number lower than 2.
 var timeOut = [];
 var saveArr = [];
 
