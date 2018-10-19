@@ -88,7 +88,8 @@ function save(){
 }
 
 // event listeners for each of the image slots on the page. They each run an anonymous function when clicked so 
-// trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then randomizeImages is called. I really want to refactor this...
+// trackedClicks is called with the global variable holding the corresponding product passed as an argument. Then 
+// randomizeImages is called. I really want to refactor this...
 imageField.childNodes[1].addEventListener('click', function(){
   trackClicks(first);
   randomizeImages();
