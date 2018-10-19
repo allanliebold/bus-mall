@@ -20,9 +20,7 @@ console.log('imageField second node: ', imageField.childNodes[3]);
 console.log('imageField third node: ', imageField.childNodes[5]);
 
 // I have these as global variables for now because they store the current three images and I need to use them in multiple functions. I'll probably refactor this to be more efficient.
-var first;
-var second;
-var third;
+var first, second, third;
 
 // variable to store the total number of clicks. I need to know when the user gets to 25.
 var counter = 0;
