@@ -27,7 +27,8 @@ var first, second, third;
 // variable to store the total number of clicks. I need to know when the user gets to 25.
 var counter = 0;
 
-// object constructor for the products to be displayed, with properties to track how many times shown, clicks, and the file path to the corresponding image.
+// object constructor for the products to be displayed, with properties to track how many times shown, clicks, and the file 
+// path to the corresponding image.
 function Product(name, path) {
   this.name = name;
   this.path = path;
