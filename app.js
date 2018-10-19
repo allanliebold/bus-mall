@@ -68,7 +68,8 @@ if(localStorage.counter){
   new Product('Wine Glass', './images/wine-glass.jpg');
 }
 
-// this function is called with every click. The contents of both the timeOut array and imgArr are pushed into saveArr so that all 20 product objects and their values can be stringified and saved to localStorage.
+// this function is called with every click. The contents of both the timeOut array and imgArr are pushed into saveArr so 
+// that all 20 product objects and their values can be stringified and saved to localStorage.
 function save(){
   saveArr = [];
 
